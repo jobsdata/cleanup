@@ -41,7 +41,7 @@ function cleanup_form(){
 
 function cleanup_node_view_alter(&$build) {
   $quantity_comments = variable_get('quantity_comment');
-  $new_comments		 = variable_get('new_comment');
+  $new_comments	= variable_get('new_comment');
   $new_comments_add  = variable_get('add_new_comment');
   
   if($quantity_comments == 1){
