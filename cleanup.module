@@ -1,0 +1,56 @@
+<?php
+/**
+*
+* My first module 'Clean_up_links_Teaser'
+*
+*/
+
+function cleanup_menu() {
+	$items['admin/config/system/cleanup'] = array(
+		'title' => 'Clean up links Teaser',
+		'description' => 'Hello, this my first module',
+		'page callback' => 'drupal_get_form',
+		'page arguments' => array('cleanup_form'),
+		'access callback' => TRUE,
+		'type' => MENU_NORMAL_ITEM,
+	);
+	return $items;
+}
+
+function cleanup_form(){
+	$form['quantity_comment'] = array(
+        '#title' => t('Убрать "1 комментариев".'),
+        '#type' => 'checkbox',
+        '#description' => t('Убирает из Teaser (предпросмотр ноды) ссылку "1 комментариев"'),
+        '#default_value' => variable_get('quantity_comment', 0),
+    );
+	$form['new_comment'] = array(
+        '#title' => t('Убрать "1 новый комментарий".'),
+        '#type' => 'checkbox',
+        '#description' => t('Убирает из Teaser (предпросмотр ноды) ссылку "1 новый комментарией"'),
+        '#default_value' => variable_get('new_comment', 0),
+    );
+	$form['add_new_comment'] = array(
+        '#title' => t('Убрать "Оставить комментарий".'),
+        '#type' => 'checkbox',
+        '#description' => t('Убирает из Teaser (предпросмотр ноды) ссылку "Оставить комментарий"'),
+        '#default_value' => variable_get('add_new_comment', 0),
+    );
+	return system_settings_form($form);
+}
+
+function cleanup_node_view_alter(&$build) {
+  $quantity_comments = variable_get('quantity_comment');
+  $new_comments		 = variable_get('new_comment');
+  $new_comments_add  = variable_get('add_new_comment');
+  
+  if($quantity_comments == 1){
+    unset($build['links']['comment']['#links']['comment-comments']);
+  }
+  if($new_comments == 1){
+    unset($build['links']['comment']['#links']['comment-new-comments']);
+  }
+  if($new_comments_add == 1){
+    unset($build['links']['comment']['#links']['comment-add']);
+  }
+}

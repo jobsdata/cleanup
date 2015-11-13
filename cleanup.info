@@ -1,0 +1,4 @@
+name = Clean up links teaser
+description = Clean up links teaser Module ver.1
+core = 7.x
+files[] = cleanup.module
